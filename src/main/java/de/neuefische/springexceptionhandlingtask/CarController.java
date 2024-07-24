@@ -29,7 +29,7 @@ public class CarController {
         return new ErrorMessage(
                 e.getMessage(),
                 LocalDateTime.now(),
-                "http://localhost:8080/api/cars/{brand}",
+                "http://localhost:8080/api/",
                 HttpStatus.BAD_REQUEST.value()
         );
     }
