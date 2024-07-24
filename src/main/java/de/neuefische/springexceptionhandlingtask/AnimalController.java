@@ -1,10 +1,9 @@
 package de.neuefische.springexceptionhandlingtask;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -22,5 +21,16 @@ public class AnimalController {
     @GetMapping
     String getAllAnimals() {
         throw new NoSuchElementException("No Animals found");
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorMessage handleException(IllegalArgumentException e) {
+        return new ErrorMessage(
+                e.getMessage(),
+                LocalDateTime.now(),
+                "http://localhost:8080/api/animals/{species}",
+                HttpStatus.BAD_REQUEST.value()
+        );
     }
 }
